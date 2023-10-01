@@ -6,10 +6,15 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
+import { FormEvent } from "react";
 
 const Signup = () => {
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    console.log("Registered");
+  };
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <FormControl mb={5}>
         <FormLabel>Email</FormLabel>
         <Input id="email" type="email" />
@@ -22,7 +27,7 @@ const Signup = () => {
       </FormControl>
 
       <Button colorScheme="teal" type="submit">
-        Signup
+        Register
       </Button>
     </form>
   );
