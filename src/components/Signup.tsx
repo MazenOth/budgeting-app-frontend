@@ -13,10 +13,13 @@ const Signup = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (event: FormEvent) => {
+    const user = {
+      email: emailRef.current?.value,
+      password: passwordRef.current?.value,
+    };
     event.preventDefault();
     if (emailRef.current && passwordRef.current) {
-      console.log(emailRef.current.value);
-      console.log(passwordRef.current.value);
+      console.log(user);
     }
   };
   return (
