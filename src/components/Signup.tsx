@@ -6,23 +6,29 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
-import { FormEvent } from "react";
+import { FormEvent, useRef } from "react";
 
 const Signup = () => {
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    console.log("Registered");
+    if (emailRef.current && passwordRef.current) {
+      console.log(emailRef.current.value);
+      console.log(passwordRef.current.value);
+    }
   };
   return (
     <form onSubmit={handleSubmit}>
       <FormControl mb={5}>
         <FormLabel>Email</FormLabel>
-        <Input id="email" type="email" />
+        <Input ref={emailRef} id="email" type="email" />
         <FormHelperText>We'll never share your email.</FormHelperText>
       </FormControl>
       <FormControl mb={5}>
         <FormLabel>Password</FormLabel>
-        <Input id="password" type="password" />
+        <Input ref={passwordRef} id="password" type="password" />
         <FormHelperText>Your password is encrypted.</FormHelperText>
       </FormControl>
 
