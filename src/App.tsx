@@ -1,13 +1,7 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import Signup from "./components/Signup";
 
 function App() {
-  return (
-    <Grid templateAreas={'"main"'}>
-      <GridItem area="main" bg="green">
-        Main
-      </GridItem>
-    </Grid>
-  );
+  return <Signup></Signup>;
 }
 
 export default App;
