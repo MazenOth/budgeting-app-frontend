@@ -21,7 +21,7 @@ const Signup = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = (data: FieldValues) => {
@@ -44,7 +44,7 @@ const Signup = () => {
         <FormHelperText>Your password is encrypted.</FormHelperText>
       </FormControl>
 
-      <Button colorScheme="teal" type="submit">
+      <Button isDisabled={!isValid} colorScheme="teal" type="submit">
         Register
       </Button>
     </form>
