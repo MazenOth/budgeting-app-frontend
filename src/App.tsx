@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Signup from "./components/Signup";
-import axios from "axios";
+import axios, { CanceledError } from "axios";
 import {
   List,
   ListItem,
@@ -27,7 +27,10 @@ function App() {
         signal: controller.signal,
       })
       .then((res) => setUsers(res.data))
-      .catch((err) => setErrors(err.message));
+      .catch((err) => {
+        if (err instanceof CanceledError) return;
+        setErrors(err.message);
+      });
 
     return () => controller.abort();
   }, []);
