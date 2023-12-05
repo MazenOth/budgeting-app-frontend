@@ -10,6 +10,8 @@ import {
 } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import { Spinner } from "@chakra-ui/react";
+import { Button, ButtonGroup } from "@chakra-ui/react";
+import { Flex, Spacer } from "@chakra-ui/react";
 
 interface User {
   id: number;
@@ -40,13 +42,33 @@ function App() {
 
     return () => controller.abort();
   }, []);
+
+  const deleteUser = (user: User) => {
+    let originalUsers = [...users];
+    setUsers(users.filter((u) => u.id !== user.id));
+
+    axios
+      .delete("https://jsonplaceholder.typicode.com/xusers/" + user.id)
+      .catch((err) => {
+        setErrors(err.message);
+        setUsers(originalUsers);
+      });
+  };
+
   return (
     <>
       {errors && <Text color="tomato">{errors}</Text>}
       {isLoading && <Spinner />}
       <UnorderedList mb={3}>
         {users.map((user) => (
-          <ListItem key={user.id}>{user.name}</ListItem>
+          <Flex minWidth="max-content" alignItems="center">
+            <ListItem key={user.id}>
+              {user.name} <Spacer />{" "}
+              <Button colorScheme="red" onClick={() => deleteUser(user)}>
+                Delete
+              </Button>
+            </ListItem>
+          </Flex>
         ))}
       </UnorderedList>
       <Signup></Signup>
