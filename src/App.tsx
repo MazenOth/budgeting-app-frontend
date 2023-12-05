@@ -9,6 +9,7 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 
 interface User {
   id: number;
@@ -18,6 +19,7 @@ interface User {
 function App() {
   const [users, setUsers] = useState<User[]>([]);
   const [errors, setErrors] = useState("");
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -26,10 +28,14 @@ function App() {
       .get<User[]>("https://jsonplaceholder.typicode.com/users", {
         signal: controller.signal,
       })
-      .then((res) => setUsers(res.data))
+      .then((res) => {
+        setUsers(res.data);
+        setLoading(false);
+      })
       .catch((err) => {
         if (err instanceof CanceledError) return;
         setErrors(err.message);
+        setLoading(false);
       });
 
     return () => controller.abort();
@@ -37,6 +43,7 @@ function App() {
   return (
     <>
       {errors && <Text color="tomato">{errors}</Text>}
+      {isLoading && <Spinner />}
       <UnorderedList mb={3}>
         {users.map((user) => (
           <ListItem key={user.id}>{user.name}</ListItem>
