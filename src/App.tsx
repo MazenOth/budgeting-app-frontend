@@ -44,11 +44,25 @@ function App() {
   }, []);
 
   const deleteUser = (user: User) => {
-    let originalUsers = [...users];
+    const originalUsers = [...users];
     setUsers(users.filter((u) => u.id !== user.id));
 
     axios
-      .delete("https://jsonplaceholder.typicode.com/xusers/" + user.id)
+      .delete("https://jsonplaceholder.typicode.com/users/" + user.id)
+      .catch((err) => {
+        setErrors(err.message);
+        setUsers(originalUsers);
+      });
+  };
+
+  const addUser = () => {
+    const originalUsers = [...users];
+    const newUser = { id: 0, name: "Mazen" };
+    setUsers([newUser, ...users]);
+
+    axios
+      .post("https://jsonplaceholder.typicode.com/users", newUser)
+      .then((res) => setUsers([res.data, ...users]))
       .catch((err) => {
         setErrors(err.message);
         setUsers(originalUsers);
@@ -59,6 +73,9 @@ function App() {
     <>
       {errors && <Text color="tomato">{errors}</Text>}
       {isLoading && <Spinner />}
+      <Button colorScheme="blue" mb={3} onClick={addUser}>
+        Add
+      </Button>
       <UnorderedList mb={3}>
         {users.map((user) => (
           <Flex minWidth="max-content" alignItems="center">
