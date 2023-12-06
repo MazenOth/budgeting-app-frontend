@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
 import Signup from "./components/Signup";
-import apiClient, { CanceledError } from "./services/api-client";
+import { CanceledError } from "./services/api-client";
 import { ListItem, UnorderedList } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import { Spinner } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { Flex, Spacer } from "@chakra-ui/react";
-
-interface User {
-  id: number;
-  name: string;
-}
+import userService, { User } from "./services/user-service";
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
@@ -18,12 +14,9 @@ function App() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    const controller = new AbortController();
+    const { request, cancel } = userService.getAllUsers();
 
-    apiClient
-      .get<User[]>("/users", {
-        signal: controller.signal,
-      })
+    request
       .then((res) => {
         setUsers(res.data);
         setLoading(false);
@@ -34,14 +27,14 @@ function App() {
         setLoading(false);
       });
 
-    return () => controller.abort();
+    return () => cancel();
   }, []);
 
   const deleteUser = (user: User) => {
     const originalUsers = [...users];
     setUsers(users.filter((u) => u.id !== user.id));
 
-    apiClient.delete("/users/" + user.id).catch((err) => {
+    userService.deleteUser(user.id).catch((err) => {
       setErrors(err.message);
       setUsers(originalUsers);
     });
@@ -52,8 +45,8 @@ function App() {
     const newUser = { id: 0, name: "Mazen" };
     setUsers([newUser, ...users]);
 
-    apiClient
-      .post("/users", newUser)
+    userService
+      .addUser(newUser)
       .then((res) => setUsers([res.data, ...users]))
       .catch((err) => {
         setErrors(err.message);
@@ -66,7 +59,7 @@ function App() {
     const updatedUser = { ...user, name: user.name + "!" };
     setUsers(users.map((u) => (u.id == user.id ? updatedUser : u)));
 
-    apiClient.patch("/users/" + user.id, updatedUser).catch((err) => {
+    userService.updateUser(updatedUser).catch((err) => {
       setErrors(err.message);
       setUsers(originalUsers);
     });
