@@ -1,34 +1,15 @@
-import { useEffect, useState } from "react";
 import Signup from "./components/Signup";
-import { CanceledError } from "./services/api-client";
 import { ListItem, UnorderedList } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import { Spinner } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { Flex, Spacer } from "@chakra-ui/react";
 import userService, { User } from "./services/user-service";
+import useUsers from "./hooks/useUsers";
 
 function App() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [errors, setErrors] = useState("");
-  const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const { request, cancel } = userService.getAll<User>();
-
-    request
-      .then((res) => {
-        setUsers(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        if (err instanceof CanceledError) return;
-        setErrors(err.message);
-        setLoading(false);
-      });
-
-    return () => cancel();
-  }, []);
+  const { users, errors, isLoading, setUsers, setErrors, setLoading } =
+    useUsers();
 
   const deleteUser = (user: User) => {
     const originalUsers = [...users];
