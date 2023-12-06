@@ -69,6 +69,22 @@ function App() {
       });
   };
 
+  const updateUser = (user: User) => {
+    const originalUsers = [...users];
+    const updatedUser = { ...user, name: user.name + "!" };
+    setUsers(users.map((u) => (u.id == user.id ? updatedUser : u)));
+
+    axios
+      .patch(
+        "https://jsonplaceholder.typicode.com/users/" + user.id,
+        updatedUser
+      )
+      .catch((err) => {
+        setErrors(err.message);
+        setUsers(originalUsers);
+      });
+  };
+
   return (
     <>
       {errors && <Text color="tomato">{errors}</Text>}
@@ -81,6 +97,13 @@ function App() {
           <Flex minWidth="max-content" alignItems="center">
             <ListItem key={user.id}>
               {user.name} <Spacer />{" "}
+              <Button
+                colorScheme="blue"
+                mx={1}
+                onClick={() => updateUser(user)}
+              >
+                Update
+              </Button>
               <Button colorScheme="red" onClick={() => deleteUser(user)}>
                 Delete
               </Button>
