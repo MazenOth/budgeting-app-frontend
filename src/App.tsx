@@ -16,17 +16,8 @@ interface User {
 }
 
 function App() {
-  const [backendData, setBackendData] = useState([{}]);
-
-  useEffect(() => {
-    axios.get("http://localhost:4000/users").then((res) => {
-      setBackendData(res.data);
-    });
-  }, []);
-
   return (
     <>
-      {console.log(backendData)}
       <Signup></Signup>
     </>
   );

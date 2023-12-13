@@ -11,32 +11,50 @@ import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardBody } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/react";
 
-const schema = z.object({
-  email: z.string().min(5).email(),
-  password: z.string().min(8),
-});
-
-type FormData = z.infer<typeof schema>;
+interface User {
+  email: string;
+  password: string;
+}
 
 const Signup = () => {
-  const [error, setError] = useState(null);
+  const [users, setUsers] = useState<User[]>([]);
+
+  const emails = users.map((user) => user.email);
+
+  const schema = z.object({
+    email: z
+      .string()
+      .min(5)
+      .email()
+      .refine((data) => !emails.includes(data), {
+        message: "User already registered",
+      }),
+    password: z.string().min(8),
+  });
+
+  type FormData = z.infer<typeof schema>;
+
+  useEffect(() => {
+    axios.get("http://localhost:4000/users").then((res) => {
+      setUsers(res.data);
+      console.log(res.data);
+    });
+  }, []);
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = (data: FieldValues) => {
-    axios
-      .post("http://localhost:4000/signup", data)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => setError(err.response.data));
+    axios.post("http://localhost:4000/signup", data).then((res) => {
+      console.log(res);
+    });
   };
 
   return (
@@ -44,7 +62,7 @@ const Signup = () => {
       <Flex
         width={"100vw"}
         height={"100vh"}
-        alignContent={"normal"}
+        alignContent={"center"}
         justifyContent={"center"}
       >
         <Center>
@@ -58,7 +76,6 @@ const Signup = () => {
                   <FormLabel>Email</FormLabel>
                   <Input {...register("email")} id="email" type="email" />
                   {errors.email && <p color="tomato">{errors.email.message}</p>}
-                  {error && <p color="tomato">{error}</p>}
                   <FormHelperText>We'll never share your email.</FormHelperText>
                 </FormControl>
                 <FormControl mb={5}>
@@ -73,7 +90,7 @@ const Signup = () => {
                   )}
                   <FormHelperText>Your password is encrypted.</FormHelperText>
                 </FormControl>
-                <Button isDisabled={!isValid} colorScheme="teal" type="submit">
+                <Button colorScheme="teal" type="submit">
                   Register
                 </Button>
               </form>
