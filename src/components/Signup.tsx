@@ -6,6 +6,10 @@ import {
   Button,
   Heading,
   Flex,
+  Container,
+  Image,
+  Box,
+  VStack,
 } from "@chakra-ui/react";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -59,16 +63,17 @@ const Signup = () => {
 
   return (
     <>
-      <Flex
-        width={"100vw"}
-        height={"100vh"}
-        alignContent={"center"}
-        justifyContent={"center"}
-      >
-        <Center>
-          <Card maxW="xl" border={"1px"}>
+      <VStack>
+        <Box boxSize={"60"}>
+          <Image
+            src="https://www.pngfind.com/pngs/b/209-2090735_money-logo-png.png"
+            alt="Money Lover Logo"
+          />
+        </Box>
+        <Container maxW={"3xl"}>
+          <Card border={"1px"}>
             <CardBody>
-              <Heading size="md" textAlign={"center"} mb={5}>
+              <Heading size="md" textAlign={"center"} mb={5} fontSize={"xx-large"}>
                 Register
               </Heading>
               <form onSubmit={handleSubmit(onSubmit)}>
@@ -90,14 +95,16 @@ const Signup = () => {
                   )}
                   <FormHelperText>Your password is encrypted.</FormHelperText>
                 </FormControl>
-                <Button colorScheme="teal" type="submit">
-                  Register
-                </Button>
+                <Flex justify={"center"}>
+                  <Button colorScheme="whatsapp" type="submit" width='800px' size={"lg"}>
+                    Register
+                  </Button>
+                </Flex>
               </form>
             </CardBody>
           </Card>
-        </Center>
-      </Flex>
+        </Container>
+      </VStack>
     </>
   );
 };
