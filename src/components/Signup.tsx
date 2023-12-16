@@ -64,16 +64,21 @@ const Signup = () => {
   return (
     <>
       <VStack>
-        <Box boxSize={"60"}>
+        <Box boxSize={"60"} mt={3}>
           <Image
             src="https://www.pngfind.com/pngs/b/209-2090735_money-logo-png.png"
             alt="Money Lover Logo"
           />
         </Box>
         <Container maxW={"3xl"}>
-          <Card border={"1px"}>
+          <Card mb={3} bg={"aliceblue"} borderRadius={"3xl"}>
             <CardBody>
-              <Heading size="md" textAlign={"center"} mb={5} fontSize={"xx-large"}>
+              <Heading
+                size="md"
+                textAlign={"center"}
+                mb={5}
+                fontSize={"xx-large"}
+              >
                 Register
               </Heading>
               <form onSubmit={handleSubmit(onSubmit)}>
@@ -96,7 +101,12 @@ const Signup = () => {
                   <FormHelperText>Your password is encrypted.</FormHelperText>
                 </FormControl>
                 <Flex justify={"center"}>
-                  <Button colorScheme="whatsapp" type="submit" width='800px' size={"lg"}>
+                  <Button
+                    colorScheme="whatsapp"
+                    type="submit"
+                    width="800px"
+                    size={"lg"}
+                  >
                     Register
                   </Button>
                 </Flex>
