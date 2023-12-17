@@ -15,39 +15,16 @@ import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { Card, CardBody } from "@chakra-ui/react";
-import { Center } from "@chakra-ui/react";
+import { Toaster, toast } from "sonner";
 
-interface User {
-  email: string;
-  password: string;
-}
-
-const Signup = () => {
-  const [users, setUsers] = useState<User[]>([]);
-
-  const emails = users.map((user) => user.email);
-
+const Signin = () => {
   const schema = z.object({
-    email: z
-      .string()
-      .min(5)
-      .email()
-      .refine((data) => !emails.includes(data), {
-        message: "User already registered",
-      }),
+    email: z.string().min(5).email(),
     password: z.string().min(8),
   });
 
   type FormData = z.infer<typeof schema>;
-
-  useEffect(() => {
-    axios.get("http://localhost:4000/users").then((res) => {
-      setUsers(res.data);
-      console.log(res.data);
-    });
-  }, []);
 
   const {
     register,
@@ -56,13 +33,23 @@ const Signup = () => {
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = (data: FieldValues) => {
-    axios.post("http://localhost:4000/signup", data).then((res) => {
-      console.log(res);
-    });
+    axios
+      .post("http://localhost:4000/signin", data)
+      .then((res) => {
+        toast.success("Success!");
+        console.log(res);
+      })
+      .catch((err) => {
+        err.response.request.status == 400
+          ? toast.error("Please check your email or password!")
+          : null;
+        console.log(err.response.request.status);
+      });
   };
 
   return (
     <>
+      <Toaster richColors position="bottom-right" />
       <VStack>
         <Box boxSize={"60"} mt={3}>
           <Image
@@ -79,14 +66,13 @@ const Signup = () => {
                 mb={5}
                 fontSize={"xx-large"}
               >
-                Register
+                Log In
               </Heading>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl mb={5}>
                   <FormLabel>Email</FormLabel>
                   <Input {...register("email")} id="email" type="email" />
                   {errors.email && <p color="tomato">{errors.email.message}</p>}
-                  <FormHelperText>We'll never share your email.</FormHelperText>
                 </FormControl>
                 <FormControl mb={5}>
                   <FormLabel>Password</FormLabel>
@@ -98,7 +84,6 @@ const Signup = () => {
                   {errors.password && (
                     <p color="tomato">{errors.password.message}</p>
                   )}
-                  <FormHelperText>Your password is encrypted.</FormHelperText>
                 </FormControl>
                 <Flex justify={"center"}>
                   <Button
@@ -107,7 +92,7 @@ const Signup = () => {
                     width="800px"
                     size={"lg"}
                   >
-                    REGISTER
+                    LOGIN
                   </Button>
                 </Flex>
               </form>
@@ -119,4 +104,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Signin;

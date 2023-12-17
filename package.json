@@ -19,6 +19,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "7.43",
     "react-router-dom": "^6.10.0",
+    "sonner": "^1.2.4",
     "zod": "^3.20.6"
   },
   "devDependencies": {

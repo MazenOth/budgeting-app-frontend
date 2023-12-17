@@ -9,6 +9,7 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import { Button, ButtonGroup } from "@chakra-ui/react";
+import Signin from "./components/Signin";
 
 interface User {
   _id: number;
@@ -18,7 +19,7 @@ interface User {
 function App() {
   return (
     <>
-      <Signup></Signup>
+      <Signin></Signin>
     </>
   );
 }
