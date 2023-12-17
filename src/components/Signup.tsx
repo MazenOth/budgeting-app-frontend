@@ -15,39 +15,16 @@ import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { Card, CardBody } from "@chakra-ui/react";
-import { Center } from "@chakra-ui/react";
-
-interface User {
-  email: string;
-  password: string;
-}
+import { Toaster, toast } from "sonner";
 
 const Signup = () => {
-  const [users, setUsers] = useState<User[]>([]);
-
-  const emails = users.map((user) => user.email);
-
   const schema = z.object({
-    email: z
-      .string()
-      .min(5)
-      .email()
-      .refine((data) => !emails.includes(data), {
-        message: "User already registered",
-      }),
+    email: z.string().min(5).email(),
     password: z.string().min(8),
   });
 
   type FormData = z.infer<typeof schema>;
-
-  useEffect(() => {
-    axios.get("http://localhost:4000/users").then((res) => {
-      setUsers(res.data);
-      console.log(res.data);
-    });
-  }, []);
 
   const {
     register,
@@ -56,13 +33,23 @@ const Signup = () => {
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = (data: FieldValues) => {
-    axios.post("http://localhost:4000/signup", data).then((res) => {
-      console.log(res);
-    });
+    axios
+      .post("http://localhost:4000/signup", data)
+      .then((res) => {
+        toast.success("Success!");
+        console.log(res);
+      })
+      .catch((err) => {
+        err.response.request.status == 400
+          ? toast.error("User already registered!")
+          : null;
+        console.log(err.response.request.status);
+      });
   };
 
   return (
     <>
+      <Toaster richColors />
       <VStack>
         <Box boxSize={"60"} mt={3}>
           <Image

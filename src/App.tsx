@@ -19,7 +19,8 @@ interface User {
 function App() {
   return (
     <>
-      <Signin></Signin>
+      {/* <Signin></Signin> */}
+      <Signup></Signup>
     </>
   );
 }
