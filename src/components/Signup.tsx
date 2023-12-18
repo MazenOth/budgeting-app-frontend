@@ -10,6 +10,7 @@ import {
   Image,
   Box,
   VStack,
+  Text,
 } from "@chakra-ui/react";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -17,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Card, CardBody } from "@chakra-ui/react";
 import { Toaster, toast } from "sonner";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
   const schema = z.object({
@@ -97,6 +99,19 @@ const Signup = () => {
                     REGISTER
                   </Button>
                 </Flex>
+                <Text fontSize={"large"} mt={"3"} textAlign={"center"}>
+                  Have you an account?{" "}
+                  {
+                    <Link to="/">
+                      {
+                        <Text as="u" color={"whatsapp.300"}>
+                          {" "}
+                          Sign In{" "}
+                        </Text>
+                      }
+                    </Link>
+                  }
+                </Text>
               </form>
             </CardBody>
           </Card>
