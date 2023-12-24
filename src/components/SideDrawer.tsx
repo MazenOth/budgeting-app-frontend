@@ -16,6 +16,7 @@ import {
 import React, { MouseEvent, MouseEventHandler } from "react";
 import AddWallet from "./AddWallet";
 import EditWallet from "./EditWallet";
+import DeleteWallet from "./DeleteWallet";
 
 const SideDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -53,6 +54,8 @@ const SideDrawer = () => {
               <AddWallet />
               <Divider />
               <EditWallet />
+              <Divider />
+              <DeleteWallet />
               <Divider />
             </VStack>
           </DrawerBody>
