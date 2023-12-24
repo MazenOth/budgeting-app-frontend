@@ -13,7 +13,7 @@ const HomePage = () => {
       <GridItem area="nav">
         <NavBar />
       </GridItem>
-      <Show above="lg">
+      <Show>
         <GridItem area="aside">
           <SideDrawer></SideDrawer>
         </GridItem>

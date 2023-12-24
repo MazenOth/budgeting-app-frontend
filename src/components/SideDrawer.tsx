@@ -13,11 +13,15 @@ import {
   VStack,
   Divider,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { MouseEvent, MouseEventHandler } from "react";
+import AddWallet from "./AddWallet";
 
 const SideDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef<HTMLButtonElement>(null);
+  const handleClick = (Event: MouseEvent<HTMLButtonElement>) => {
+    <AddWallet></AddWallet>;
+  };
 
   return (
     <>
@@ -45,14 +49,7 @@ const SideDrawer = () => {
           <DrawerBody>
             <VStack>
               <Divider />
-              <Button
-                width={"80"}
-                colorScheme="teal"
-                variant="ghost"
-                borderRadius={"none"}
-              >
-                My Wallets
-              </Button>
+              <AddWallet />
               <Divider />
             </VStack>
           </DrawerBody>
