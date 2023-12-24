@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import React, { MouseEvent, MouseEventHandler } from "react";
 import AddWallet from "./AddWallet";
+import EditWallet from "./EditWallet";
 
 const SideDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -50,6 +51,8 @@ const SideDrawer = () => {
             <VStack>
               <Divider />
               <AddWallet />
+              <Divider />
+              <EditWallet />
               <Divider />
             </VStack>
           </DrawerBody>
