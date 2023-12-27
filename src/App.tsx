@@ -1,27 +1,21 @@
-import { useEffect, useState } from "react";
-import Signup from "./components/Signup";
-import axios from "axios";
-import {
-  List,
-  ListItem,
-  ListIcon,
-  OrderedList,
-  UnorderedList,
-} from "@chakra-ui/react";
-import { Button, ButtonGroup } from "@chakra-ui/react";
+import { Route, Routes } from "react-router-dom";
+import Layout from "./components/Layout";
 import Signin from "./components/Signin";
-
-interface User {
-  _id: number;
-  email: string;
-}
+import Signup from "./components/Signup";
+import HomePage from "./components/HomePage";
+import RequireAuth from "./components/RequireAuth";
 
 function App() {
   return (
-    <>
-      <Signin></Signin>
-      <Signup></Signup>
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route path="login" element={<Signin />}></Route>
+        <Route path="register" element={<Signup />}></Route>
+        <Route element={<RequireAuth />}>
+          <Route path="/" element={<HomePage />}></Route>
+        </Route>
+      </Route>
+    </Routes>
   );
 }
 

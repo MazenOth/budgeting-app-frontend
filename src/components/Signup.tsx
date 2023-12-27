@@ -102,7 +102,7 @@ const Signup = () => {
                 <Text fontSize={"large"} mt={"3"} textAlign={"center"}>
                   Have you an account?{" "}
                   {
-                    <Link to="/">
+                    <Link to="/login">
                       {
                         <Text as="u" color={"whatsapp.300"}>
                           {" "}

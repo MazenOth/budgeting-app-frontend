@@ -18,9 +18,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Card, CardBody } from "@chakra-ui/react";
 import { Toaster, toast } from "sonner";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const Signin = () => {
+  const navigate = useNavigate();
+  const { setAuth, auth } = useAuth();
   const schema = z.object({
     email: z.string().min(5).email(),
     password: z.string().min(8),
@@ -38,8 +41,11 @@ const Signin = () => {
     axios
       .post("http://localhost:4000/signin", data)
       .then((res) => {
+        const accessToken = res.data.token;
+        setAuth({ accessToken });
         toast.success("Success!");
-        console.log(res);
+        console.log(res, res.data.token);
+        navigate("/");
       })
       .catch((err) => {
         err.response.request.status == 400
@@ -106,6 +112,16 @@ const Signin = () => {
                         <Text as="u" color={"whatsapp.300"}>
                           {" "}
                           Register{" "}
+                        </Text>
+                      }
+                    </Link>
+                  }
+                  {
+                    <Link to="/">
+                      {
+                        <Text as="u" color={"whatsapp.300"}>
+                          {" "}
+                          Home{" "}
                         </Text>
                       }
                     </Link>
