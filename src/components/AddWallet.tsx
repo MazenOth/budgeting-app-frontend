@@ -22,9 +22,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
+import useAuth from "../hooks/useAuth";
 
 const schema = z.object({
-  userId: z.string().min(1),
   name: z.string().min(2).max(50),
   currency: z.string().min(1),
   balance: z.number(),
@@ -33,6 +33,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const AddWallet = () => {
+  const { auth } = useAuth();
   const {
     register,
     handleSubmit,
@@ -41,7 +42,7 @@ const AddWallet = () => {
 
   const onSubmit = (data: FieldValues) => {
     axios
-      .post("http://localhost:4000/addWallet", data)
+      .post("http://localhost:4000/addWallet/" + auth.id, data)
       .then((res) => {
         toast.success("Success!");
         console.log(res);
@@ -83,16 +84,6 @@ const AddWallet = () => {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <FormControl>
-                <FormLabel>User Id</FormLabel>
-                <Input
-                  {...register("userId")}
-                  placeholder="Please insert your user id"
-                />
-                {errors.userId && (
-                  <Text color="tomato">{errors.userId.message}</Text>
-                )}
-              </FormControl>
               <FormControl mt={4}>
                 <FormLabel>Wallet Name</FormLabel>
                 <Input

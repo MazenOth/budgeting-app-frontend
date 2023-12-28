@@ -11,12 +11,13 @@ interface AuthContextType {
 
 interface UserType {
   accessToken: string;
+  id: string;
 }
 
 const AuthContext = React.createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: Props) => {
-  const [auth, setAuth] = useState({ accessToken: "" });
+  const [auth, setAuth] = useState({ accessToken: "", id: "" });
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>

@@ -42,7 +42,8 @@ const Signin = () => {
       .post("http://localhost:4000/signin", data)
       .then((res) => {
         const accessToken = res.data.token;
-        setAuth({ accessToken });
+        const id = res.data.id;
+        setAuth({ accessToken, id });
         toast.success("Success!");
         console.log(res, res.data.token);
         navigate("/");
