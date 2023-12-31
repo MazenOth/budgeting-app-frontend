@@ -12,11 +12,14 @@ import {
   IconButton,
   VStack,
   Divider,
+  Text,
 } from "@chakra-ui/react";
 import React, { MouseEvent, MouseEventHandler } from "react";
 import AddWallet from "./AddWallet";
 import EditWallet from "./EditWallet";
 import DeleteWallet from "./DeleteWallet";
+import MyWallets from "./MyWallets";
+import { Link } from "react-router-dom";
 
 const SideDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -53,9 +56,18 @@ const SideDrawer = () => {
               <Divider />
               <AddWallet />
               <Divider />
-              <EditWallet />
-              <Divider />
               <DeleteWallet />
+              <Divider />
+              {
+                <Link to="/my-wallets">
+                  {
+                    <Text as="u" color={"whatsapp.300"}>
+                      {" "}
+                      My Wallets{" "}
+                    </Text>
+                  }
+                </Link>
+              }
               <Divider />
             </VStack>
           </DrawerBody>

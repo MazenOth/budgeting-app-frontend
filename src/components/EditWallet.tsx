@@ -23,6 +23,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
 
+interface Props {
+  userId: string;
+  walletId: string;
+}
+
 const schema = z.object({
   userId: z.string().min(1),
   name: z.string().min(2).max(50),
