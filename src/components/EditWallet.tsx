@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -22,21 +23,44 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
+import useAuth from "../hooks/useAuth";
 
 interface Props {
-  userId: string;
   walletId: string;
+  onEdit: () => void;
+}
+
+export interface Wallet {
+  _id: string;
+  name: string;
+  balance: number;
+  currency: string;
 }
 
 const schema = z.object({
-  userId: z.string().min(1),
   name: z.string().min(2).max(50),
   currency: z.string().min(1),
   balance: z.number(),
 });
 
 type FormData = z.infer<typeof schema>;
-const EditWallet = () => {
+
+const EditWallet = ({ walletId, onEdit }: Props) => {
+  const { auth, setAuth } = useAuth();
+  // const [wallets, setWallets] = useState<Wallet[]>([]);
+
+  // useEffect(() => {
+  //   const controller = new AbortController();
+  //   axios
+  //     .get<Wallet[]>("http://localhost:4000/getWallets/" + auth.id + "/" + walletId, {
+  //       signal: controller.signal,
+  //     })
+  //     .then((res) => {
+  //       setWallets(res.data);
+  //     });
+  //   return () => controller.abort();
+  // }, []);
+
   const {
     register,
     handleSubmit,
@@ -45,12 +69,13 @@ const EditWallet = () => {
 
   const onSubmit = (data: FieldValues) => {
     axios
-      .put(
-        "http://localhost:4000/editWallet/" + "65867f012dc774a0ae80810e",
-        data
-      )
+      .put("http://localhost:4000/editWallet/" + auth.id + "/" + walletId, data)
       .then((res) => {
+        const walletName = res.data.name;
+        setAuth({ ...auth, walletName: walletName });
         toast.success("Success!");
+        console.log(res.data.name);
+        onEdit();
         console.log(res);
       })
       .catch((err) => {
@@ -90,16 +115,6 @@ const EditWallet = () => {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <FormControl>
-                <FormLabel>User Id</FormLabel>
-                <Input
-                  {...register("userId")}
-                  placeholder="Please insert your user id"
-                />
-                {errors.userId && (
-                  <Text color="tomato">{errors.userId.message}</Text>
-                )}
-              </FormControl>
               <FormControl mt={4}>
                 <FormLabel>Wallet Name</FormLabel>
                 <Input

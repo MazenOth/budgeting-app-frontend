@@ -15,13 +15,30 @@ const FetchWallets = () => {
   const [wallets, setWallets] = useState<Wallet[]>([]);
 
   useEffect(() => {
+    const controller = new AbortController();
     axios
-      .get<Wallet[]>("http://localhost:4000/getWallets/" + auth.id)
+      .get<Wallet[]>("http://localhost:4000/getWallets/" + auth.id, {
+        signal: controller.signal,
+      })
       .then((res) => {
         setWallets(res.data);
       });
-    console.log(wallets);
+    return () => {
+      controller.abort();
+    };
   }, []);
+
+  const updateWallet = (wallet: Wallet) => {
+    console.log(auth.walletName);
+    setWallets(
+      wallets.map((w) =>
+        w._id === wallet._id ? { ...w, name: auth.walletName } : w
+      )
+    );
+  };
+
+  // console.log(wallets);
+  // console.log(auth.walletName);
 
   return (
     <>
@@ -30,7 +47,10 @@ const FetchWallets = () => {
           <ListItem key={wallet._id}>
             {wallet.name}{" "}
             <HStack>
-              <EditWallet />
+              <EditWallet
+                walletId={wallet._id}
+                onEdit={() => updateWallet(wallet)}
+              />
               <DeleteWallet />
             </HStack>
           </ListItem>

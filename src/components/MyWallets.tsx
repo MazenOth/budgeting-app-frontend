@@ -1,6 +1,6 @@
 import { Grid, GridItem, Show } from "@chakra-ui/react";
 import NavBar from "./NavBar";
-import FetchWalles from "./FetchWallets";
+import FetchWallets from "./FetchWallets";
 
 const MyWallets = () => {
   return (
@@ -14,7 +14,7 @@ const MyWallets = () => {
         <NavBar />
       </GridItem>
       <GridItem area="main">
-        <FetchWalles />
+        <FetchWallets />
       </GridItem>
     </Grid>
   );

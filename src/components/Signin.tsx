@@ -43,7 +43,7 @@ const Signin = () => {
       .then((res) => {
         const accessToken = res.data.token;
         const id = res.data.id;
-        setAuth({ accessToken, id });
+        setAuth({ ...auth, accessToken: accessToken, id: id });
         toast.success("Success!");
         console.log(res, res.data.token);
         navigate("/");
