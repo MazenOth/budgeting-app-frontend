@@ -4,6 +4,7 @@ import useAuth from "../hooks/useAuth";
 import { ListItem, UnorderedList, HStack } from "@chakra-ui/react";
 import DeleteWallet from "./DeleteWallet";
 import EditWallet from "./EditWallet";
+import useWalletStore from "../context/store";
 
 export interface Wallet {
   _id: string;
@@ -11,6 +12,8 @@ export interface Wallet {
 }
 
 const FetchWallets = () => {
+  const { walletName } = useWalletStore();
+
   const { auth } = useAuth();
   const [wallets, setWallets] = useState<Wallet[]>([]);
 
@@ -29,16 +32,13 @@ const FetchWallets = () => {
   }, []);
 
   const updateWallet = (wallet: Wallet) => {
-    console.log(auth.walletName);
     setWallets(
       wallets.map((w) =>
-        w._id === wallet._id ? { ...w, name: auth.walletName } : w
+        w._id === wallet._id ? { ...w, name: "new name" } : w
       )
     );
+    console.log("new", auth.walletName);
   };
-
-  // console.log(wallets);
-  // console.log(auth.walletName);
 
   return (
     <>

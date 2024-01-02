@@ -24,6 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
 import useAuth from "../hooks/useAuth";
+import useWalletStore from "../context/store";
 
 interface Props {
   walletId: string;
@@ -47,19 +48,7 @@ type FormData = z.infer<typeof schema>;
 
 const EditWallet = ({ walletId, onEdit }: Props) => {
   const { auth, setAuth } = useAuth();
-  // const [wallets, setWallets] = useState<Wallet[]>([]);
-
-  // useEffect(() => {
-  //   const controller = new AbortController();
-  //   axios
-  //     .get<Wallet[]>("http://localhost:4000/getWallets/" + auth.id + "/" + walletId, {
-  //       signal: controller.signal,
-  //     })
-  //     .then((res) => {
-  //       setWallets(res.data);
-  //     });
-  //   return () => controller.abort();
-  // }, []);
+  const { walletName, updateWalletName } = useWalletStore();
 
   const {
     register,
@@ -74,7 +63,7 @@ const EditWallet = ({ walletId, onEdit }: Props) => {
         const walletName = res.data.name;
         setAuth({ ...auth, walletName: walletName });
         toast.success("Success!");
-        console.log(res.data.name);
+        console.log(auth.walletName);
         onEdit();
         console.log(res);
       })
