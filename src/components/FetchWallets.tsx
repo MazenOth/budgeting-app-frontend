@@ -6,9 +6,8 @@ import useWallets, { Wallet } from "../hooks/useWallets";
 import useAuth from "../hooks/useAuth";
 
 const FetchWallets = () => {
-  const { auth } = useAuth();
   // const { walletName } = useWalletStore();
-
+  const { auth } = useAuth();
   const { data } = useWallets();
 
   const updateWallet = (wallet: Wallet) => {

@@ -7,9 +7,8 @@ export interface Wallet {
   name: string;
 }
 
-const { auth } = useAuth();
-
 const useWallets = () => {
+  const { auth } = useAuth();
   return useQuery<Wallet[]>({
     queryKey: ["wallets"],
     queryFn: () =>
