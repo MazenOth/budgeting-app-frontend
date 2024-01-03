@@ -16,7 +16,7 @@ const FetchWallets = () => {
             {wallet.name}{" "}
             <HStack>
               <EditWallet walletId={wallet._id} />
-              <DeleteWallet />
+              <DeleteWallet walletId={wallet._id} />
             </HStack>
           </ListItem>
         ))}

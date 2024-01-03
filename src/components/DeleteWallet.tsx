@@ -12,25 +12,37 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const DeleteWallet = () => {
+interface Props {
+  walletId: string;
+}
+
+const DeleteWallet = ({ walletId }: Props) => {
+  const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef(null);
-  const onDelete = () => {
-    axios
-      .delete(
-        "http://localhost:4000/deleteWallet/" + "65867f012dc774a0ae80810e"
-      )
-      .then((res) => {
-        toast.success("Success!");
-        console.log(res);
-      })
-      .catch((err) => {
-        err.response.request.status == 400
-          ? toast.error(err.response.data)
-          : null;
-        console.log(err.response.data);
+  const deleteWallet = useMutation({
+    mutationFn: () =>
+      axios
+        .delete("http://localhost:4000/deleteWallet/" + walletId)
+        .then((res) => {
+          res.data;
+          toast.success("Success!");
+        })
+        .catch((err) => {
+          err.response.request.status == 400
+            ? toast.error(err.response.data)
+            : null;
+        }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["wallets"],
       });
+    },
+  });
+  const onDelete = () => {
+    deleteWallet.mutate();
   };
 
   return (
