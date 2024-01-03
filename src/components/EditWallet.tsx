@@ -1,5 +1,4 @@
 import React from "react";
-import { useEffect, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -24,11 +23,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
 import useAuth from "../hooks/useAuth";
-import useWalletStore from "../context/store";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   walletId: string;
-  onEdit: () => void;
 }
 
 export interface Wallet {
@@ -46,33 +44,40 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const EditWallet = ({ walletId, onEdit }: Props) => {
-  const { auth, setAuth } = useAuth();
-  const { walletName, updateWalletName } = useWalletStore();
-
+const EditWallet = ({ walletId }: Props) => {
+  const queryClient = useQueryClient();
+  const { auth } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const onSubmit = (data: FieldValues) => {
-    axios
-      .put("http://localhost:4000/editWallet/" + auth.id + "/" + walletId, data)
-      .then((res) => {
-        const walletName = res.data.name;
-        setAuth({ ...auth, walletName: walletName });
-        toast.success("Success!");
-        console.log(auth.walletName);
-        onEdit();
-        console.log(res);
-      })
-      .catch((err) => {
-        err.response.request.status == 400
-          ? toast.error(err.response.data)
-          : null;
-        console.log(err.response.data);
+  const editWallet = useMutation({
+    mutationFn: (wallet: FieldValues) =>
+      axios
+        .put<FieldValues>(
+          "http://localhost:4000/editWallet/" + auth.id + "/" + walletId,
+          wallet
+        )
+        .then((res) => {
+          res.data;
+          toast.success("Success!");
+        })
+        .catch((err) => {
+          err.response.request.status == 400
+            ? toast.error(err.response.data)
+            : null;
+        }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["wallets"],
       });
+    },
+  });
+
+  const onSubmit = (data: FieldValues) => {
+    editWallet.mutate(data);
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
