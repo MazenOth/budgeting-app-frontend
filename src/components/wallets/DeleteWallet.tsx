@@ -48,7 +48,7 @@ const DeleteWallet = ({ walletId }: Props) => {
   return (
     <>
       <Button colorScheme="red" onClick={onOpen}>
-        Delete Wallet
+        Delete
       </Button>
 
       <AlertDialog

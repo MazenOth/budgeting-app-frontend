@@ -22,19 +22,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
-import useAuth from "../hooks/useAuth";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-interface Props {
-  walletId: string;
-}
-
-export interface Wallet {
-  _id: string;
-  name: string;
-  balance: number;
-  currency: string;
-}
+import useAuth from "../../hooks/useAuth";
 
 const schema = z.object({
   name: z.string().min(2).max(50),
@@ -44,8 +32,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const EditWallet = ({ walletId }: Props) => {
-  const queryClient = useQueryClient();
+const AddWallet = () => {
   const { auth } = useAuth();
   const {
     register,
@@ -53,31 +40,19 @@ const EditWallet = ({ walletId }: Props) => {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const editWallet = useMutation({
-    mutationFn: (wallet: FieldValues) =>
-      axios
-        .put<FieldValues>(
-          "http://localhost:4000/editWallet/" + auth.id + "/" + walletId,
-          wallet
-        )
-        .then((res) => {
-          res.data;
-          toast.success("Success!");
-        })
-        .catch((err) => {
-          err.response.request.status == 400
-            ? toast.error(err.response.data)
-            : null;
-        }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["wallets"],
-      });
-    },
-  });
-
   const onSubmit = (data: FieldValues) => {
-    editWallet.mutate(data);
+    axios
+      .post("http://localhost:4000/addWallet/" + auth.id, data)
+      .then((res) => {
+        toast.success("Success!");
+        console.log(res);
+      })
+      .catch((err) => {
+        err.response.request.status == 400
+          ? toast.error(err.response.data)
+          : null;
+        console.log(err.response.data);
+      });
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -94,7 +69,7 @@ const EditWallet = ({ walletId }: Props) => {
         borderRadius={"none"}
         onClick={onOpen}
       >
-        Edit Wallet
+        Add Wallet
       </Button>
 
       <Modal
@@ -105,7 +80,7 @@ const EditWallet = ({ walletId }: Props) => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Edit your wallet!</ModalHeader>
+          <ModalHeader>Add a wallet first!</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -158,4 +133,4 @@ const EditWallet = ({ walletId }: Props) => {
   );
 };
 
-export default EditWallet;
+export default AddWallet;

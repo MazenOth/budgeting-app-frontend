@@ -15,17 +15,17 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { MouseEvent, MouseEventHandler } from "react";
-import AddWallet from "./AddWallet";
-import EditWallet from "./EditWallet";
-import DeleteWallet from "./DeleteWallet";
-import MyWallets from "./MyWallets";
-import { Link } from "react-router-dom";
+import AddWallet from "./wallets/AddWallet";
+import { Link, useNavigate } from "react-router-dom";
 
 const SideDrawer = () => {
+  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef<HTMLButtonElement>(null);
-  const handleClick = (Event: MouseEvent<HTMLButtonElement>) => {
-    <AddWallet></AddWallet>;
+
+  const handleClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    navigate("my-wallets");
   };
 
   return (
@@ -56,18 +56,16 @@ const SideDrawer = () => {
               <Divider />
               <AddWallet />
               <Divider />
-              <DeleteWallet />
-              <Divider />
-              {
-                <Link to="/my-wallets">
-                  {
-                    <Text as="u" color={"whatsapp.300"}>
-                      {" "}
-                      My Wallets{" "}
-                    </Text>
-                  }
-                </Link>
-              }
+              <Button
+                width={"80"}
+                colorScheme="teal"
+                variant="ghost"
+                borderRadius={"none"}
+                onClick={handleClick}
+              >
+                My Wallets
+              </Button>
+
               <Divider />
             </VStack>
           </DrawerBody>

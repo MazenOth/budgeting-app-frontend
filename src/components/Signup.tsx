@@ -60,7 +60,7 @@ const Signup = () => {
           />
         </Box>
         <Container maxW={"3xl"}>
-          <Card mb={3} bg={"aliceblue"} borderRadius={"3xl"}>
+          <Card mb={3} borderRadius={"3xl"}>
             <CardBody>
               <Heading
                 size="md"
@@ -74,7 +74,7 @@ const Signup = () => {
                 <FormControl mb={5}>
                   <FormLabel>Email</FormLabel>
                   <Input {...register("email")} id="email" type="email" />
-                  {errors.email && <p color="tomato">{errors.email.message}</p>}
+                  {errors.email && <Text color="tomato">{errors.email.message}</Text>}
                   <FormHelperText>We'll never share your email.</FormHelperText>
                 </FormControl>
                 <FormControl mb={5}>
@@ -85,7 +85,7 @@ const Signup = () => {
                     type="password"
                   />
                   {errors.password && (
-                    <p color="tomato">{errors.password.message}</p>
+                    <Text color="tomato">{errors.password.message}</Text>
                   )}
                   <FormHelperText>Your password is encrypted.</FormHelperText>
                 </FormControl>
@@ -100,7 +100,7 @@ const Signup = () => {
                   </Button>
                 </Flex>
                 <Text fontSize={"large"} mt={"3"} textAlign={"center"}>
-                  Have you an account?{" "}
+                  Have an account?{" "}
                   {
                     <Link to="/login">
                       {

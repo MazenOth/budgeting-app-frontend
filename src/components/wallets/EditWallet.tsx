@@ -22,7 +22,19 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+interface Props {
+  walletId: string;
+}
+
+export interface Wallet {
+  _id: string;
+  name: string;
+  balance: number;
+  currency: string;
+}
 
 const schema = z.object({
   name: z.string().min(2).max(50),
@@ -32,7 +44,8 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const AddWallet = () => {
+const EditWallet = ({ walletId }: Props) => {
+  const queryClient = useQueryClient();
   const { auth } = useAuth();
   const {
     register,
@@ -40,19 +53,31 @@ const AddWallet = () => {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const onSubmit = (data: FieldValues) => {
-    axios
-      .post("http://localhost:4000/addWallet/" + auth.id, data)
-      .then((res) => {
-        toast.success("Success!");
-        console.log(res);
-      })
-      .catch((err) => {
-        err.response.request.status == 400
-          ? toast.error(err.response.data)
-          : null;
-        console.log(err.response.data);
+  const editWallet = useMutation({
+    mutationFn: (wallet: FieldValues) =>
+      axios
+        .put<FieldValues>(
+          "http://localhost:4000/editWallet/" + auth.id + "/" + walletId,
+          wallet
+        )
+        .then((res) => {
+          res.data;
+          toast.success("Success!");
+        })
+        .catch((err) => {
+          err.response.request.status == 400
+            ? toast.error(err.response.data)
+            : null;
+        }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["wallets"],
       });
+    },
+  });
+
+  const onSubmit = (data: FieldValues) => {
+    editWallet.mutate(data);
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -63,13 +88,11 @@ const AddWallet = () => {
   return (
     <>
       <Button
-        width={"80"}
         colorScheme="teal"
-        variant="ghost"
-        borderRadius={"none"}
         onClick={onOpen}
+        mr={"2"}
       >
-        Add Wallet
+        Edit
       </Button>
 
       <Modal
@@ -80,7 +103,7 @@ const AddWallet = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add a wallet first!</ModalHeader>
+          <ModalHeader>Edit your wallet!</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -133,4 +156,4 @@ const AddWallet = () => {
   );
 };
 
-export default AddWallet;
+export default EditWallet;

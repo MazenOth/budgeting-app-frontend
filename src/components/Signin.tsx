@@ -67,7 +67,7 @@ const Signin = () => {
           />
         </Box>
         <Container maxW={"3xl"}>
-          <Card mb={3} bg={"aliceblue"} borderRadius={"3xl"}>
+          <Card mb={3} borderRadius={"3xl"}>
             <CardBody>
               <Heading
                 size="md"
@@ -81,7 +81,7 @@ const Signin = () => {
                 <FormControl mb={5}>
                   <FormLabel>Email</FormLabel>
                   <Input {...register("email")} id="email" type="email" />
-                  {errors.email && <p color="tomato">{errors.email.message}</p>}
+                  {errors.email && <Text color="tomato">{errors.email.message}</Text>}
                 </FormControl>
                 <FormControl mb={5}>
                   <FormLabel>Password</FormLabel>
@@ -91,7 +91,7 @@ const Signin = () => {
                     type="password"
                   />
                   {errors.password && (
-                    <p color="tomato">{errors.password.message}</p>
+                    <Text color="tomato">{errors.password.message}</Text>
                   )}
                 </FormControl>
                 <Flex justify={"center"}>
@@ -113,16 +113,6 @@ const Signin = () => {
                         <Text as="u" color={"whatsapp.300"}>
                           {" "}
                           Register{" "}
-                        </Text>
-                      }
-                    </Link>
-                  }
-                  {
-                    <Link to="/">
-                      {
-                        <Text as="u" color={"whatsapp.300"}>
-                          {" "}
-                          Home{" "}
                         </Text>
                       }
                     </Link>

@@ -4,7 +4,7 @@ import Signin from "./components/Signin";
 import Signup from "./components/Signup";
 import HomePage from "./components/HomePage";
 import RequireAuth from "./components/RequireAuth";
-import MyWallets from "./components/MyWallets";
+import MyWallets from "./components/wallets/MyWallets";
 
 function App() {
   return (
