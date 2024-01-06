@@ -23,9 +23,13 @@ const SideDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef<HTMLButtonElement>(null);
 
-  const handleClick = (event: React.MouseEvent) => {
+  const handleMyWalletsClick = (event: React.MouseEvent) => {
     event.preventDefault();
     navigate("my-wallets");
+  };
+  const handleCategoriesClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    navigate("category");
   };
 
   return (
@@ -61,11 +65,20 @@ const SideDrawer = () => {
                 colorScheme="teal"
                 variant="ghost"
                 borderRadius={"none"}
-                onClick={handleClick}
+                onClick={handleMyWalletsClick}
               >
                 My Wallets
               </Button>
-
+              <Divider />
+              <Button
+                width={"80"}
+                colorScheme="teal"
+                variant="ghost"
+                borderRadius={"none"}
+                onClick={handleCategoriesClick}
+              >
+                Categories
+              </Button>
               <Divider />
             </VStack>
           </DrawerBody>

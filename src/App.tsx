@@ -5,6 +5,7 @@ import Signup from "./components/Signup";
 import HomePage from "./components/HomePage";
 import RequireAuth from "./components/RequireAuth";
 import MyWallets from "./components/wallets/MyWallets";
+import MyCategories from "./components/categories/MyCategories";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route element={<RequireAuth />}>
           <Route path="/" element={<HomePage />}></Route>
           <Route path="my-wallets" element={<MyWallets />}></Route>
+          <Route path="category" element={<MyCategories />}></Route>
         </Route>
       </Route>
     </Routes>
