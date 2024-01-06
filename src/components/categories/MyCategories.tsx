@@ -1,5 +1,6 @@
 import { Grid, GridItem, Show } from "@chakra-ui/react";
 import CategoryNavBar from "./CategoryNavBar";
+import FetchCategories from "./FetchCategories";
 
 const MyCategories = () => {
   return (
@@ -12,7 +13,9 @@ const MyCategories = () => {
       <GridItem area="nav">
         <CategoryNavBar />
       </GridItem>
-      <GridItem area="main"></GridItem>
+      <GridItem area="main">
+        <FetchCategories />
+      </GridItem>
     </Grid>
   );
 };
