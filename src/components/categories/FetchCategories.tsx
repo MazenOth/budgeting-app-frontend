@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import useAuth from "../../hooks/useAuth";
 import useCategories from "../../hooks/useCategories";
+import AddCategory from "./AddCategory";
 
 const FetchCategories = () => {
   const { auth } = useAuth();
@@ -33,6 +34,7 @@ const FetchCategories = () => {
                   <Spacer />
                 </Flex>
               ))}
+              <AddCategory />
             </Stack>
           </CardBody>
         </Card>
