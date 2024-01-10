@@ -87,11 +87,7 @@ const EditWallet = ({ walletId }: Props) => {
 
   return (
     <>
-      <Button
-        colorScheme="teal"
-        onClick={onOpen}
-        mr={"2"}
-      >
+      <Button colorScheme="teal" onClick={onOpen} mr={"2"}>
         Edit
       </Button>
 

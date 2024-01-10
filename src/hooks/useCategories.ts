@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
 
@@ -6,16 +6,15 @@ export interface Category {
   _id: string;
   name: string;
 }
-
+  
 const useCategories = () => {
+  const queryClient = useQueryClient();
   const { auth } = useAuth();
   return useQuery<Category[]>({
     queryKey: ["categories"],
     queryFn: () =>
       axios
-        .get<Category[]>(
-          "http://localhost:4000/getCategories/" + "65868ae22dc774a0ae8081aa"
-        )
+        .get<Category[]>("http://localhost:4000/getCategories/" + auth.walletId)
         .then((res) => res.data),
   });
 };
