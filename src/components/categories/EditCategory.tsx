@@ -25,6 +25,17 @@ import { Toaster, toast } from "sonner";
 import useAuth from "../../hooks/useAuth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+interface Props {
+  categoryId: string;
+}
+
+export interface Category {
+  _id: string;
+  name: string;
+  group: string;
+  type: string;
+}
+
 const schema = z.object({
   name: z.string().min(2).max(50),
   group: z.string().min(1),
@@ -33,7 +44,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const AddCategory = () => {
+const EditCategory = ({ categoryId }: Props) => {
   const queryClient = useQueryClient();
   const { auth } = useAuth();
   const {
@@ -42,11 +53,14 @@ const AddCategory = () => {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const addCategory = useMutation({
+  const editCategory = useMutation({
     mutationFn: (category: FieldValues) =>
       axios
-        .post<FieldValues>(
-          "http://localhost:4000/addCategory/" + auth.walletId,
+        .put<FieldValues>(
+          "http://localhost:4000/editCategory/" +
+            auth.walletId +
+            "/" +
+            categoryId,
           category
         )
         .then((res) => {
@@ -66,7 +80,7 @@ const AddCategory = () => {
   });
 
   const onSubmit = (data: FieldValues) => {
-    addCategory.mutate(data);
+    editCategory.mutate(data);
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -76,14 +90,8 @@ const AddCategory = () => {
 
   return (
     <>
-      <Button
-        width={"80"}
-        colorScheme="teal"
-        variant="ghost"
-        borderRadius={"none"}
-        onClick={onOpen}
-      >
-        Add Category
+      <Button colorScheme="teal" onClick={onOpen} mr={"2"}>
+        Edit
       </Button>
 
       <Modal
@@ -94,7 +102,7 @@ const AddCategory = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add Category!</ModalHeader>
+          <ModalHeader>Edit your category!</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -153,4 +161,4 @@ const AddCategory = () => {
   );
 };
 
-export default AddCategory;
+export default EditCategory;
