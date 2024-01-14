@@ -16,6 +16,7 @@ import {
   NumberInput,
   NumberInputField,
   Text,
+  IconButton,
 } from "@chakra-ui/react";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -24,6 +25,7 @@ import axios from "axios";
 import { Toaster, toast } from "sonner";
 import useAuth from "../../hooks/useAuth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AddIcon } from "@chakra-ui/icons";
 
 const schema = z.object({
   name: z.string().min(2).max(50),
@@ -77,10 +79,9 @@ const AddCategory = () => {
   return (
     <>
       <Button
-        width={"80"}
+        leftIcon={<AddIcon />}
         colorScheme="teal"
         variant="ghost"
-        borderRadius={"none"}
         onClick={onOpen}
       >
         Add Category

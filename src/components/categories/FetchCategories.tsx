@@ -18,6 +18,7 @@ import useAuth from "../../hooks/useAuth";
 import useCategories from "../../hooks/useCategories";
 import AddCategory from "./AddCategory";
 import EditCategory from "./EditCategory";
+import DeleteCategory from "./DeleteCategory";
 
 const FetchCategories = () => {
   const { auth } = useAuth();
@@ -32,8 +33,11 @@ const FetchCategories = () => {
               {data?.map((category) => (
                 <Flex minWidth="max-content" alignItems="center" gap="2">
                   <Box key={category._id}>{category.name}</Box>
-                  <EditCategory categoryId={category._id} />
                   <Spacer />
+                  <Box>
+                    <EditCategory categoryId={category._id} />
+                    <DeleteCategory categoryId={category._id} />
+                  </Box>
                 </Flex>
               ))}
               <AddCategory />
