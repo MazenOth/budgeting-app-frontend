@@ -1,6 +1,8 @@
-import { Grid, GridItem, Show } from "@chakra-ui/react";
+import { Grid, GridItem, Show, IconButton } from "@chakra-ui/react";
 import NavBar from "./NavBar";
 import SideDrawer from "./SideDrawer";
+import FetchTransactions from "./transactions/FetchTransactions";
+import { AddIcon } from "@chakra-ui/icons";
 
 const HomePage = () => {
   return (
@@ -18,7 +20,14 @@ const HomePage = () => {
           <SideDrawer></SideDrawer>
         </GridItem>
       </Show>
-      <GridItem area="main">Main</GridItem>
+      <GridItem area="main">
+        <FetchTransactions />{" "}
+        <IconButton
+          colorScheme="green"
+          aria-label="Search database"
+          icon={<AddIcon />}
+        />
+      </GridItem>
     </Grid>
   );
 };
