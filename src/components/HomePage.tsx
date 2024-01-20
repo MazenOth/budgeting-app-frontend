@@ -3,6 +3,7 @@ import NavBar from "./NavBar";
 import SideDrawer from "./SideDrawer";
 import FetchTransactions from "./transactions/FetchTransactions";
 import { AddIcon } from "@chakra-ui/icons";
+import AddTransaction from "./transactions/AddTransaction";
 
 const HomePage = () => {
   return (
@@ -27,6 +28,7 @@ const HomePage = () => {
           aria-label="Search database"
           icon={<AddIcon />}
         />
+        <AddTransaction />
       </GridItem>
     </Grid>
   );
