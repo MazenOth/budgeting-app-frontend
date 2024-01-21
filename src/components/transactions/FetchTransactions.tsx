@@ -17,6 +17,7 @@ import {
 import useAuth from "../../hooks/useAuth";
 import useTransactions from "../../hooks/useTransactions";
 import EditTransaction from "./EditTransaction";
+import DeleteTransaction from "./DeleteTransaction";
 
 const FetchTransactions = () => {
   const { auth } = useAuth();
@@ -34,8 +35,11 @@ const FetchTransactions = () => {
                 <Flex minWidth="max-content" alignItems="center" gap="2">
                   <Box key={transaction._id}>{transaction.amount}</Box>
                   <Box key={transaction._id}>{transaction.transactionDate}</Box>
-                  <EditTransaction transactionId={transaction._id}/>
                   <Spacer />
+                  <Box>
+                    <EditTransaction transactionId={transaction._id} />
+                    <DeleteTransaction transactionId={transaction._id} />
+                  </Box>
                 </Flex>
               ))}
             </Stack>
