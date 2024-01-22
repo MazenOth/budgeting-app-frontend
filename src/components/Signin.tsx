@@ -11,6 +11,8 @@ import {
   Box,
   VStack,
   Text,
+  InputRightElement,
+  InputGroup,
 } from "@chakra-ui/react";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,13 +22,21 @@ import { Card, CardBody } from "@chakra-ui/react";
 import { Toaster, toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { useState } from "react";
 
 const Signin = () => {
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
   const navigate = useNavigate();
   const { setAuth, auth } = useAuth();
   const schema = z.object({
-    email: z.string().min(5).email(),
-    password: z.string().min(8),
+    email: z
+      .string()
+      .min(3, { message: "Email must be at least 3 characters." })
+      .email({ message: "Invalid email." }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters." }),
   });
 
   type FormData = z.infer<typeof schema>;
@@ -81,15 +91,24 @@ const Signin = () => {
                 <FormControl mb={5}>
                   <FormLabel>Email</FormLabel>
                   <Input {...register("email")} id="email" type="email" />
-                  {errors.email && <Text color="tomato">{errors.email.message}</Text>}
+                  {errors.email && (
+                    <Text color="tomato">{errors.email.message}</Text>
+                  )}
                 </FormControl>
                 <FormControl mb={5}>
                   <FormLabel>Password</FormLabel>
-                  <Input
-                    {...register("password")}
-                    id="password"
-                    type="password"
-                  />
+                  <InputGroup size="md">
+                    <Input
+                      {...register("password")}
+                      id="password"
+                      type={show ? "text" : "password"}
+                    />
+                    <InputRightElement width="4.5rem">
+                      <Button h="1.75rem" size="sm" onClick={handleClick}>
+                        {show ? "Hide" : "Show"}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
                   {errors.password && (
                     <Text color="tomato">{errors.password.message}</Text>
                   )}
