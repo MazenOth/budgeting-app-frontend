@@ -48,7 +48,7 @@ const AddCategory = () => {
     mutationFn: (category: FieldValues) =>
       axios
         .post<FieldValues>(
-          "http://localhost:4000/addCategory/" + auth.walletId,
+          "http://localhost:4000/addCategory/" + auth.walletId + "/" + auth.id,
           category
         )
         .then((res) => {

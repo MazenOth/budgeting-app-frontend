@@ -57,7 +57,9 @@ const EditTransaction = ({ transactionId }: Props) => {
             "/" +
             auth.walletId +
             "/" +
-            transaction.categoryId,
+            transaction.categoryId +
+            "/" +
+            auth.id,
           transaction
         )
         .then((res) => {

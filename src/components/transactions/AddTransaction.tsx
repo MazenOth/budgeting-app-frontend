@@ -53,7 +53,10 @@ const AddTransaction = () => {
     mutationFn: (transaction: FieldValues) =>
       axios
         .post<FieldValues>(
-          "http://localhost:4000/addTransaction/" + auth.walletId,
+          "http://localhost:4000/addTransaction/" +
+            auth.walletId +
+            "/" +
+            auth.id,
           transaction
         )
         .then((res) => {

@@ -13,6 +13,8 @@ interface UserType {
   accessToken: string;
   id: string;
   walletId: string;
+  userName: string;
+  email: string;
 }
 
 const AuthContext = React.createContext<AuthContextType>({} as AuthContextType);
@@ -22,6 +24,8 @@ export const AuthProvider = ({ children }: Props) => {
     accessToken: "",
     id: "",
     walletId: "",
+    userName: "",
+    email: "",
   });
 
   return (

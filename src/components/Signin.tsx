@@ -53,8 +53,15 @@ const Signin = () => {
       .then((res) => {
         const accessToken = res.data.token;
         const id = res.data.id;
-        setAuth({ ...auth, accessToken: accessToken, id: id });
-        toast.success("Success!");
+        const userName = res.data.name;
+        const email = res.data.email;
+        setAuth({
+          ...auth,
+          accessToken: accessToken,
+          id: id,
+          userName: userName,
+          email: email,
+        });
         console.log(res, res.data.token);
         navigate("/");
       })
