@@ -17,8 +17,11 @@ import {
 import React, { MouseEvent, MouseEventHandler } from "react";
 import AddWallet from "./wallets/AddWallet";
 import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import Signout from "./Signout";
 
 const SideDrawer = () => {
+  const { auth } = useAuth();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef<HTMLButtonElement>(null);
@@ -53,7 +56,14 @@ const SideDrawer = () => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>User: Email and Name</DrawerHeader>
+          <DrawerHeader>
+            <VStack>
+              <Text fontSize="lg">{auth.userName}</Text>
+              <Text fontSize="medium" color="GrayText">
+                {auth.email}
+              </Text>
+            </VStack>
+          </DrawerHeader>
 
           <DrawerBody>
             <VStack>
@@ -83,7 +93,9 @@ const SideDrawer = () => {
             </VStack>
           </DrawerBody>
 
-          <DrawerFooter></DrawerFooter>
+          <DrawerFooter>
+            <Signout />
+          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>
