@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import React, { MouseEvent, MouseEventHandler } from "react";
 import AddWallet from "./wallets/AddWallet";
+import MyAccount from "./user/MyAccount";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Signout from "./Signout";
@@ -67,6 +68,8 @@ const SideDrawer = () => {
 
           <DrawerBody>
             <VStack>
+              <Divider />
+              <MyAccount />
               <Divider />
               <AddWallet />
               <Divider />
