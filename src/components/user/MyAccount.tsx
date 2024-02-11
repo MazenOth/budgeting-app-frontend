@@ -79,7 +79,7 @@ const MyAccount = () => {
             </VStack>
           </ModalBody>
 
-          <Flex padding="4" minWidth="max-content" alignItems="center" gap="2">
+          <Flex padding="6" minWidth="max-content" alignItems="center" gap="2">
             <Box>
               {" "}
               <Signout />

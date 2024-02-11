@@ -19,7 +19,8 @@ const WalletsMenu = () => {
   const { data } = useWallets();
   const { setAuth, auth } = useAuth();
   const handleWalletClick = (value: string) => {
-    setAuth({ ...auth, walletId: value});
+    const id = value;
+    setAuth({ ...auth, walletId: id });
     console.log(auth.walletId);
     queryClient.invalidateQueries({ queryKey: ["categories"] });
   };

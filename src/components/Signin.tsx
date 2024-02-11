@@ -55,14 +55,17 @@ const Signin = () => {
         const id = res.data.id;
         const userName = res.data.name;
         const email = res.data.email;
+        const walletId = res.data.walletId;
         setAuth({
           ...auth,
           accessToken: accessToken,
           id: id,
           userName: userName,
           email: email,
+          walletId: walletId,
         });
         console.log(res, res.data.token);
+        console.log(auth.accessToken, "new");
         navigate("/");
       })
       .catch((err) => {
