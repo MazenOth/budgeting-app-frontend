@@ -18,6 +18,7 @@ import useAuth from "../../hooks/useAuth";
 import useTransactions from "../../hooks/useTransactions";
 import EditTransaction from "./EditTransaction";
 import DeleteTransaction from "./DeleteTransaction";
+import AddTransaction from "./AddTransaction";
 
 const FetchTransactions = () => {
   const { auth } = useAuth();
@@ -42,6 +43,7 @@ const FetchTransactions = () => {
                   </Box>
                 </Flex>
               ))}
+              <AddTransaction />
             </Stack>
           </CardBody>
         </Card>

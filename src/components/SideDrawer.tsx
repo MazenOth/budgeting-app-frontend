@@ -95,10 +95,6 @@ const SideDrawer = () => {
               <Divider />
             </VStack>
           </DrawerBody>
-
-          <DrawerFooter>
-            <Signout />
-          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>

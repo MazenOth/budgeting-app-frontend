@@ -15,12 +15,6 @@ const HomePage = () => {
       <GridItem as="main" colSpan="19" p="20px">
         <NavBar />
         <FetchTransactions />{" "}
-        <IconButton
-          colorScheme="green"
-          aria-label="Search database"
-          icon={<AddIcon />}
-        />
-        <AddTransaction />
       </GridItem>
     </Grid>
   );
