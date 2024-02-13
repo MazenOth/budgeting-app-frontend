@@ -4,24 +4,16 @@ import SideDrawer from "./SideDrawer";
 import FetchTransactions from "./transactions/FetchTransactions";
 import { AddIcon } from "@chakra-ui/icons";
 import AddTransaction from "./transactions/AddTransaction";
+import { SimpleGrid } from "@chakra-ui/react";
 
 const HomePage = () => {
   return (
-    <Grid
-      templateAreas={{
-        base: `"nav" "main"`,
-        lg: `"nav nav" "aside main"`,
-      }}
-    >
-      <GridItem area="nav">
-        <NavBar />
+    <Grid templateColumns="repeat(20, 1fr)">
+      <GridItem as="aside" colSpan="1" minHeight="100vh" p="20px">
+        <SideDrawer></SideDrawer>
       </GridItem>
-      <Show>
-        <GridItem area="aside">
-          <SideDrawer></SideDrawer>
-        </GridItem>
-      </Show>
-      <GridItem area="main">
+      <GridItem as="main" colSpan="19" p="20px">
+        <NavBar />
         <FetchTransactions />{" "}
         <IconButton
           colorScheme="green"
