@@ -6,6 +6,8 @@ export interface Transaction {
   _id: string;
   amount: number;
   transactionDate: Date;
+  category: string;
+  name: string;
 }
 
 const useTransactions = () => {

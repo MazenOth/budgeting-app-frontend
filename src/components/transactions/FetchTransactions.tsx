@@ -30,10 +30,14 @@ const FetchTransactions = () => {
     <>
       <Container maxW={"3xl"}>
         <Card mt={"5"} borderRadius={"10"} border={"1px"}>
+          <CardHeader textAlign="center">
+            <Heading size="md">Recent Transactions</Heading>
+          </CardHeader>
           <CardBody textAlign={"center"}>
             <Stack divider={<StackDivider />} spacing="4">
               {data?.map((transaction) => (
                 <Flex minWidth="max-content" alignItems="center" gap="2">
+                  <Box key={transaction._id}>{transaction.category.name}</Box>
                   <Box key={transaction._id}>{transaction.amount}</Box>
                   <Box key={transaction._id}>{transaction.transactionDate}</Box>
                   <Spacer />

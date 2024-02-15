@@ -30,7 +30,7 @@ import useWallets from "../../hooks/useWallets";
 import useCategories from "../../hooks/useCategories";
 
 const schema = z.object({
-  categoryId: z.string().min(1),
+  categoryName: z.string().min(1),
   amount: z.number().min(0.001).max(1000000000000),
   transactionDate: z.coerce.date(),
 });
@@ -112,22 +112,14 @@ const AddTransaction = () => {
                 <FormLabel>Category</FormLabel>
                 <Select
                   placeholder="Please select your category"
-                  {...register("categoryId")}
+                  {...register("categoryName")}
                 >
                   {data?.map((category) => (
-                    <option
-                      key={category._id}
-
-                      // onSelect={() => {
-                      //   setValue("categoryId", category._id);
-                      // }}
-                    >
-                      {category._id}
-                    </option>
+                    <option key={category._id}>{category.name}</option>
                   ))}
                 </Select>
-                {errors.categoryId && (
-                  <Text color="tomato">{errors.categoryId.message}</Text>
+                {errors.categoryName && (
+                  <Text color="tomato">{errors.categoryName.message}</Text>
                 )}
               </FormControl>
               <FormControl mt={4}>
