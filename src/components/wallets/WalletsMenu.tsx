@@ -21,8 +21,6 @@ const WalletsMenu = () => {
   const handleWalletClick = (value: string) => {
     const id = value;
     setAuth({ ...auth, walletId: id });
-    console.log(auth.walletId);
-    queryClient.invalidateQueries({ queryKey: ["categories"] });
   };
   return (
     <Menu>

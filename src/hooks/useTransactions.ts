@@ -13,7 +13,7 @@ export interface Transaction {
 const useTransactions = () => {
   const { auth } = useAuth();
   return useQuery<Transaction[]>({
-    queryKey: ["transactions"],
+    queryKey: ["transactions", auth.walletId],
     queryFn: () =>
       axios
         .get<Transaction[]>(
