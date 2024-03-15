@@ -31,7 +31,7 @@ interface Props {
 }
 
 const schema = z.object({
-  categoryId: z.string(),
+  categoryName: z.string(),
   amount: z.number().min(0.001).max(1000000000000),
   transactionDate: z.coerce.date(),
 });
@@ -57,7 +57,7 @@ const EditTransaction = ({ transactionId }: Props) => {
             "/" +
             auth.walletId +
             "/" +
-            transaction.categoryId +
+            transaction.categoryName +
             "/" +
             auth.id,
           transaction
@@ -109,14 +109,14 @@ const EditTransaction = ({ transactionId }: Props) => {
                 <FormLabel>Category</FormLabel>
                 <Select
                   placeholder="Please select your category"
-                  {...register("categoryId")}
+                  {...register("categoryName")}
                 >
                   {data?.map((category) => (
-                    <option key={category._id}>{category._id}</option>
+                    <option key={category._id}>{category.name}</option>
                   ))}
                 </Select>
-                {errors.categoryId && (
-                  <Text color="tomato">{errors.categoryId.message}</Text>
+                {errors.categoryName && (
+                  <Text color="tomato">{errors.categoryName.message}</Text>
                 )}
               </FormControl>
               <FormControl mt={4}>
