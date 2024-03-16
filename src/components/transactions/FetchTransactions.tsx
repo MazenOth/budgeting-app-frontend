@@ -36,10 +36,15 @@ const FetchTransactions = () => {
           <CardBody textAlign={"center"}>
             <Stack divider={<StackDivider />} spacing="4">
               {data?.map((transaction) => (
-                <Flex minWidth="max-content" alignItems="center" gap="2">
-                  <Box key={transaction._id}>{transaction.category.name}</Box>
-                  <Box key={transaction._id}>{transaction.amount}</Box>
-                  <Box key={transaction._id}>{transaction.transactionDate}</Box>
+                <Flex
+                  minWidth="max-content"
+                  alignItems="center"
+                  gap="2"
+                  key={transaction._id}
+                >
+                  <Box>{transaction.category.name}</Box>
+                  <Box>{transaction.amount}</Box>
+                  <Box>{transaction.transactionDate}</Box>
                   <Spacer />
                   <Box>
                     <EditTransaction transactionId={transaction._id} />
