@@ -33,14 +33,20 @@ const WalletsMenu = () => {
         Wallets
       </MenuButton>
       <MenuList>
-        {data?.map((wallet) => (
-          <MenuItem
-            key={wallet._id}
-            onClick={() => handleWalletClick(wallet._id)}
-          >
-            {wallet.name}
-          </MenuItem>
-        ))}
+        <MenuOptionGroup
+          defaultValue={auth.walletId}
+          title="Select a wallet"
+          type="radio"
+        >
+          {data?.map((wallet) => (
+            <MenuItemOption
+              value={wallet._id}
+              onClick={() => handleWalletClick(wallet._id)}
+            >
+              {wallet.name}
+            </MenuItemOption>
+          ))}
+        </MenuOptionGroup>
       </MenuList>
     </Menu>
   );
