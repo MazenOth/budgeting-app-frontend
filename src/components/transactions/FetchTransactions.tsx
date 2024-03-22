@@ -44,7 +44,7 @@ const FetchTransactions = () => {
                 >
                   <Box>{transaction.category.name}</Box>
                   <Box>{transaction.amount}</Box>
-                  <Box>{transaction.transactionDate}</Box>
+                  <Box>{new Date(transaction.transactionDate).toLocaleDateString()}</Box>
                   <Spacer />
                   <Box>
                     <EditTransaction transactionId={transaction._id} />
