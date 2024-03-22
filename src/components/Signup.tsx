@@ -64,7 +64,7 @@ const Signup = () => {
           email: email,
         });
         console.log(res, res.data.token);
-        navigate("/");
+        navigate("/add-wallet");
       })
       .catch((err) => {
         err.response.request.status == 400
