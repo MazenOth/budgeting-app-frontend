@@ -30,8 +30,14 @@ const FetchWallets = () => {
           <CardBody textAlign={"center"}>
             <Stack divider={<StackDivider />} spacing="4">
               {data?.map((wallet) => (
-                <Flex minWidth="max-content" alignItems="center" gap="2">
-                  <Box key={wallet._id}>{wallet.name}</Box>
+                <Flex
+                  minWidth="max-content"
+                  alignItems="center"
+                  gap="2"
+                  key={wallet._id}
+                >
+                  <Box>{wallet.name}</Box>
+                  <Box>{wallet.balance}</Box>
                   <Spacer />
                   <Box>
                     <EditWallet walletId={wallet._id} />
