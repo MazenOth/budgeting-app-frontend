@@ -64,14 +64,18 @@ const Signin = () => {
           email: email,
           walletId: walletId,
         });
+
+        if (walletId) {
+          navigate("/");
+        } else {
+          navigate("/add-wallet");
+        }
         console.log(res, res.data.token);
-        console.log(auth.accessToken, "new");
-        navigate("/");
       })
       .catch((err) => {
         err.response.request.status == 400
           ? toast.error("Please check your email or password!")
-          : null;
+          : toast.error("Internal Server Error!");
         console.log(err.response.request.status);
       });
   };
