@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import { Toaster, toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   walletId: string;
@@ -21,14 +22,18 @@ interface Props {
 const DeleteWallet = ({ walletId }: Props) => {
   const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
   const cancelRef = React.useRef(null);
   const deleteWallet = useMutation({
     mutationFn: () =>
       axios
         .delete("http://localhost:4000/deleteWallet/" + walletId)
         .then((res) => {
-          res.data;
-          toast.success("Success!");
+          if (res.data.hasWallet) {
+            toast.success("Success!");
+          } else {
+            navigate("/add-wallet");
+          }
         })
         .catch((err) => {
           err.response.request.status == 400
