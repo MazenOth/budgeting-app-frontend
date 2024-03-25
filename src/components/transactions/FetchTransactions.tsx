@@ -19,8 +19,14 @@ import useTransactions from "../../hooks/useTransactions";
 import EditTransaction from "./EditTransaction";
 import DeleteTransaction from "./DeleteTransaction";
 import AddTransaction from "./AddTransaction";
+import ExcelExport from "./ExcelExport";
 
 const FetchTransactions = () => {
+  const exportedData = [
+    { name: "John", age: 30 },
+    { name: "Jane", age: 25 },
+    // Add more data as needed
+  ];
   const { auth } = useAuth();
   const { data } = useTransactions();
 
@@ -44,7 +50,9 @@ const FetchTransactions = () => {
                 >
                   <Box>{transaction.category.name}</Box>
                   <Box>{transaction.amount}</Box>
-                  <Box>{new Date(transaction.transactionDate).toLocaleDateString()}</Box>
+                  <Box>
+                    {new Date(transaction.transactionDate).toLocaleDateString()}
+                  </Box>
                   <Spacer />
                   <Box>
                     <EditTransaction transactionId={transaction._id} />
@@ -53,6 +61,10 @@ const FetchTransactions = () => {
                 </Flex>
               ))}
               <AddTransaction />
+              <ExcelExport
+                data={data ? data : exportedData}
+                fileName="New File"
+              />
             </Stack>
           </CardBody>
         </Card>
