@@ -22,15 +22,21 @@ import AddTransaction from "./AddTransaction";
 import ExcelExport from "./ExcelExport";
 
 const FetchTransactions = () => {
-  const exportedData = [
-    { name: "John", age: 30 },
-    { name: "Jane", age: 25 },
-    // Add more data as needed
-  ];
   const { auth } = useAuth();
   const { data } = useTransactions();
+  const exported = [];
+  for (let i = 0; i < (data?.length || 0); i++) {
+    exported.push({
+      amount: data?.[i]?.amount,
+      date: data?.[i]?.transactionDate,
+      user: data?.[i]?.user.name,
+      wallet: data?.[i]?.wallet.name,
+      category: data?.[i]?.category?.name,
+    });
+  }
 
   console.log(data);
+  console.log(exported);
 
   return (
     <>
@@ -48,7 +54,7 @@ const FetchTransactions = () => {
                   gap="2"
                   key={transaction._id}
                 >
-                  <Box>{transaction.category.name}</Box>
+                  <Box>{transaction.category?.name}</Box>
                   <Box>{transaction.amount}</Box>
                   <Box>
                     {new Date(transaction.transactionDate).toLocaleDateString()}
@@ -61,10 +67,7 @@ const FetchTransactions = () => {
                 </Flex>
               ))}
               <AddTransaction />
-              <ExcelExport
-                data={data ? data : exportedData}
-                fileName="New File"
-              />
+              <ExcelExport data={exported} fileName="Transactions" />
             </Stack>
           </CardBody>
         </Card>

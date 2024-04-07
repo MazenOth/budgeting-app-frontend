@@ -7,7 +7,8 @@ export interface Transaction {
   amount: number;
   transactionDate: Date;
   category: { name: string };
-  name: string;
+  user: { name: string };
+  wallet: { name: string };
 }
 
 const useTransactions = () => {
