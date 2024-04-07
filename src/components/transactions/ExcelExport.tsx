@@ -1,12 +1,13 @@
+import { AddIcon, DownloadIcon } from "@chakra-ui/icons";
+import { Button } from "@chakra-ui/react";
 import * as XLSX from "xlsx";
 
 interface ExcelExporterProps {
-  data: any[]; 
-  fileName: string; 
+  data: any[];
+  fileName: string;
 }
 
 const ExcelExport = ({ data, fileName }: ExcelExporterProps) => {
-
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
@@ -14,7 +15,16 @@ const ExcelExport = ({ data, fileName }: ExcelExporterProps) => {
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
 
-  return <button onClick={exportToExcel}>Export to Excel</button>;
+  return (
+    <Button
+      leftIcon={<DownloadIcon />}
+      colorScheme="teal"
+      variant="ghost"
+      onClick={exportToExcel}
+    >
+      Export to Excel
+    </Button>
+  );
 };
 
 export default ExcelExport;
